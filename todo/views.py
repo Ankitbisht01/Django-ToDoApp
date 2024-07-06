@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from .models import Task
 
 
@@ -12,3 +12,14 @@ def addtask(request):
     #return HttpResponse('testing add task button')
     return redirect('home')
 
+def mark_as_done(requst, pk):
+    task = get_object_or_404(Task, pk=pk)
+    task.is_completed = True
+    task.save()
+    return redirect('home')
+
+def mark_as_undone(requst, pk):
+    task = get_object_or_404(Task, pk=pk)
+    task.is_completed = False
+    task.save()
+    return redirect('home')
